@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coworking-project-logs
+  labels:
+    app: coworking-project-logs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coworking-project-logs
+  template:
+    metadata:
+      labels:
+        app: coworking-project-logs
+    spec:
+      containers:
+      - name: coworking-project-logs
+        image: alpine:latest
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo \"$(date '+%Y-%m-%dT%H:%M:%S.%3N+04:00') INFO in app: {'2023-02-09': 179, '2023-02-10': 156, '2023-02-11': 203}\"; sleep 30; done"]
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "25m"
+          limits:
+            memory: "64Mi"
+            cpu: "50m"

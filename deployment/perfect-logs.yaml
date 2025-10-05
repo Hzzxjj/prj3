@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coworking-perfect-logs
+  labels:
+    app: coworking-perfect-logs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coworking-perfect-logs
+  template:
+    metadata:
+      labels:
+        app: coworking-perfect-logs
+    spec:
+      containers:
+      - name: coworking-perfect-logs
+        image: python:3.10-alpine
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo \"$(date '+%Y-%m-%dT%H:%M:%S.%3N+04:00') INFO in app: {'2024-02-09': 179, '2024-02-10': 156, '2024-02-11': 203}\"; sleep 30; done"]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
